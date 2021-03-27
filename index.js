@@ -7,14 +7,28 @@ const Post = require("./models/Post");
 connectDB();
 
 const typeDefs = gql`
+  type Post {
+    id: ID!
+    content: String!
+    created_at: String!
+    username: String!
+  }
+
   type Query {
-    sayHi: String!
+    getPosts: [Post!]
   }
 `;
 
 const resolvers = {
   Query: {
-    sayHi: () => "Hello World!",
+    async getPosts() {
+      try {
+        const posts = await Post.find();
+        return posts;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 };
 
