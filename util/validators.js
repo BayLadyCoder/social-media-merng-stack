@@ -26,7 +26,24 @@ module.exports.validateRegisterInput = (
   }
 
   return {
-    isValid: Object.keys(errors).length < 1,
+    valid: Object.keys(errors).length < 1,
+    errors,
+  };
+};
+
+module.exports.validateLoginInput = (username, password) => {
+  const errors = {};
+
+  if (username.trim() === "") {
+    errors.username = "Username is required";
+  }
+
+  if (password.trim() === "") {
+    errors.password = "Password is required";
+  }
+
+  return {
+    valid: Object.keys(errors).length < 1,
     errors,
   };
 };

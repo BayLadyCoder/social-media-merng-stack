@@ -2,13 +2,57 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
 
-const { validateRegisterInput } = require("../../util/validators");
+const {
+  validateRegisterInput,
+  validateLoginInput,
+} = require("../../util/validators");
 const User = require("../../models/User");
 
 require("dotenv").config();
 
+const generateToken = (user) => {
+  const payload = {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+  };
+
+  return jwt.sign(payload, process.env.SECRET_KEY, {
+    expiresIn: "6h",
+  });
+};
+
 module.exports = {
   Mutation: {
+    async login(_, { username, password }) {
+      const { valid, errors } = validateLoginInput(username, password);
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        errors.general = "User not found";
+        throw new UserInputError("User not found", { errors });
+      }
+
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) {
+        errors.general = "Wrong credentials";
+        throw new UserInputError("Wrong credentials", { errors });
+      }
+
+      // return jsonwebtoken
+      const token = generateToken(user);
+
+      return {
+        ...user._doc,
+        id: user._id,
+        token,
+      };
+    },
     async register(_, args) {
       const {
         username,
@@ -18,13 +62,13 @@ module.exports = {
       } = args.registerInput;
 
       // Validate user data
-      const { isValid, errors } = validateRegisterInput(
+      const { valid, errors } = validateRegisterInput(
         username,
         email,
         password,
         confirmed_password
       );
-      if (!isValid) {
+      if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
 
@@ -61,15 +105,7 @@ module.exports = {
       const res = await newUser.save();
 
       // return jsonwebtoken
-      const payload = {
-        id: res.id,
-        email: res.email,
-        username: res.username,
-      };
-
-      const token = jwt.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: "6h",
-      });
+      const token = generateToken(res);
 
       return {
         ...res._doc,
