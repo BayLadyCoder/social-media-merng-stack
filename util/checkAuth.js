@@ -18,7 +18,7 @@ module.exports = (context) => {
         throw new AuthenticationError("Invalid token");
       }
     }
-    throw new Error("Invalid token format");
+    throw new AuthenticationError("Invalid token format");
   }
-  throw new Error("Authorization header must be provided");
+  throw new AuthenticationError("Authorization header must be provided");
 };

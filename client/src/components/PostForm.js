@@ -4,30 +4,30 @@ import { useForm } from "../util/customHooks";
 import { gql, useMutation } from "@apollo/client";
 
 const PostForm = () => {
-  const { handleChange, handleSubmit, values } = useForm(
-    createPostCallBack,
-    {}
-  );
+  const { handleChange, handleSubmit, values } = useForm(createPostCallBack, {
+    content: "",
+  });
 
   const [createPost, { error }] = useMutation(MUTATION_CREATE_POST, {
-    variables: values,
     update(_, result) {
       console.log(result);
       values.content = "";
     },
+    variables: values,
   });
 
   function createPostCallBack() {
     createPost();
   }
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={(e) => handleSubmit(e)} noValidate>
       <h2>Create a post:</h2>
       <Form.Field>
         <Form.Input
           placeholder="Hi World!"
           name="content"
-          onChange={handleChange}
+          onChange={(e) => handleChange(e)}
           value={values.content}
         />
         <Button type="submit" color="teal">
@@ -39,24 +39,26 @@ const PostForm = () => {
 };
 
 const MUTATION_CREATE_POST = gql`
-  mutation createPost($content: Sting!) {
-    id
-    content
-    username
-    created_at
-    likes {
+  mutation createPost($content: String!) {
+    createPost(content: $content) {
       id
-      username
-      created_at
-    }
-    comments {
-      id
-      username
-      created_at
       content
+      username
+      created_at
+      likes {
+        id
+        username
+        created_at
+      }
+      comments {
+        id
+        username
+        created_at
+        content
+      }
+      likeCount
+      commentCount
     }
-    likeCount
-    commentCount
   }
 `;
 
