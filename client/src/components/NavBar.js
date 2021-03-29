@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, Segment, Container, Icon } from "semantic-ui-react";
+import { Menu, Container, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
