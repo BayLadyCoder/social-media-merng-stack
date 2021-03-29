@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { useMutation, gql } from "@apollo/client";
 import { useForm } from "../../util/customHooks";
+import { AuthContext } from "../../context/auth";
 
 const Login = ({ history }) => {
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const initialForm = {
     username: "",
@@ -16,8 +18,9 @@ const Login = ({ history }) => {
   );
 
   const [loginUser, { loading }] = useMutation(MUTATION_LOGIN_USER, {
-    update(_, result) {
+    update(_, { data: { login: userData } }) {
       // this function will run once the mutation is done
+      context.login(userData);
       history.push("/");
     },
     onError(err) {
@@ -38,7 +41,7 @@ const Login = ({ history }) => {
         noValidate
         className={loading ? "loading" : ""}
       >
-        <h1>Register</h1>
+        <h1>Login</h1>
         <Form.Input
           label="Username"
           placeholder="Username"
@@ -58,7 +61,7 @@ const Login = ({ history }) => {
           error={errors.password}
         />
         <Button type="submit" primary>
-          Register
+          Login
         </Button>
       </Form>
       {Object.keys(errors).length > 0 && (
