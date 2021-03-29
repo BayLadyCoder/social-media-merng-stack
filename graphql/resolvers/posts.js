@@ -40,6 +40,7 @@ module.exports = {
         content,
         user: id,
         username: username,
+        created_at: new Date().toISOString(),
       });
 
       const post = await newPost.save();
@@ -78,6 +79,7 @@ module.exports = {
           // Post not like yet, like it
           post.likes.push({
             username,
+            created_at: new Date().toISOString(),
           });
         }
         await post.save();

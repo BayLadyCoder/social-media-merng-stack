@@ -100,6 +100,7 @@ module.exports = {
         username,
         password: hashedPassword,
         email,
+        created_at: new Date().toISOString(),
       });
 
       const res = await newUser.save();

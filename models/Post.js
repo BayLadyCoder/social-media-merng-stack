@@ -10,8 +10,8 @@ const postSchema = new Schema({
     required: true,
   },
   created_at: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    required: true,
   },
   comments: [
     {
@@ -24,8 +24,8 @@ const postSchema = new Schema({
         required: true,
       },
       created_at: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        required: true,
       },
     },
   ],
@@ -36,8 +36,8 @@ const postSchema = new Schema({
         required: true,
       },
       created_at: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        required: true,
       },
     },
   ],
