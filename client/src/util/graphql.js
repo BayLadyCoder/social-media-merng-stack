@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 
+// Query
 export const QUERY_GET_POSTS = gql`
   query getPosts {
     getPosts {
@@ -22,6 +23,8 @@ export const QUERY_GET_POSTS = gql`
   }
 `;
 
+// Mutation
+
 export const MUTATION_CREATE_POST = gql`
   mutation createPost($content: String!) {
     createPost(content: $content) {
@@ -42,6 +45,20 @@ export const MUTATION_CREATE_POST = gql`
       }
       likeCount
       commentCount
+    }
+  }
+`;
+
+export const MUTATION_LIKE_POST = gql`
+  mutation likePost($postId: ID!) {
+    likePost(postId: $postId) {
+      id
+      likes {
+        id
+        username
+      }
+      username
+      likeCount
     }
   }
 `;
