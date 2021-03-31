@@ -23,7 +23,7 @@ const PostForm = () => {
     },
     variables: values,
     onError(err) {
-      console.log(err);
+      console.error(err);
       setErrors(err.graphQLErrors[0].message);
     },
   });
