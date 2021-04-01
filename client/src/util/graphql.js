@@ -23,6 +23,27 @@ export const QUERY_GET_POSTS = gql`
   }
 `;
 
+export const QUERY_GET_POST = gql`
+  query getPost($postId: ID!) {
+    getPost(postId: $postId) {
+      id
+      content
+      username
+      likeCount
+      commentCount
+      likes {
+        username
+      }
+      comments {
+        id
+        username
+        content
+        created_at
+      }
+    }
+  }
+`;
+
 // Mutation
 
 export const MUTATION_CREATE_POST = gql`

@@ -8,6 +8,7 @@ import Register from "./components/pages/Register";
 import NavBar from "./components/NavBar";
 import { AuthProvider } from "./context/auth";
 import AuthRoute from "./util/AuthRoute";
+import SinglePost from "./components/pages/SinglePost";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={Register} />
+          <Route exact path="/post/:postId" component={SinglePost} />
         </Container>
       </Router>
     </AuthProvider>
