@@ -83,3 +83,9 @@ export const MUTATION_LIKE_POST = gql`
     }
   }
 `;
+
+export const MUTATION_DELETE_POST = gql`
+  mutation deletePost($postId: ID!) {
+    deletePost(postId: $postId)
+  }
+`;
