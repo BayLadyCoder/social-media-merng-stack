@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { QUERY_GET_POST, MUTATION_CREATE_COMMENT } from "../../util/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import {
@@ -19,6 +19,7 @@ const SinglePost = (props) => {
   const [commentContent, setCommentContent] = useState("");
   const { user } = useContext(AuthContext);
   const postId = props.match.params.postId;
+  const commentInputRef = useRef(null);
 
   const { data } = useQuery(QUERY_GET_POST, {
     variables: { postId },
@@ -31,6 +32,7 @@ const SinglePost = (props) => {
     },
     update(cache, result) {
       setCommentContent("");
+      commentInputRef.current.blur();
     },
   });
 
@@ -107,6 +109,7 @@ const SinglePost = (props) => {
                         onChange={(event) =>
                           setCommentContent(event.target.value)
                         }
+                        ref={commentInputRef}
                       />
                       <button
                         type="submit"
