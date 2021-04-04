@@ -3,7 +3,7 @@ import { Button, Confirm } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { MUTATION_DELETE_POST, QUERY_GET_POSTS } from "../util/graphql";
 
-const DeleteButton = ({ postId }) => {
+const DeleteButton = ({ postId, callback }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const [deletePost] = useMutation(MUTATION_DELETE_POST, {
@@ -13,6 +13,7 @@ const DeleteButton = ({ postId }) => {
     },
     update(cache, result) {
       setConfirmOpen(false);
+      if (callback) callback();
       const data = cache.readQuery({ query: QUERY_GET_POSTS });
       cache.writeQuery({
         query: QUERY_GET_POSTS,

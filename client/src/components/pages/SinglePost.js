@@ -5,7 +5,7 @@ import { Grid, Card, Image, Button, Icon, Label } from "semantic-ui-react";
 import { AuthContext } from "../../context/auth";
 import Moment from "react-moment";
 import LikeButton from "../LikeButton";
-// import DeleteButton from "../DeleteButton";
+import DeleteButton from "../DeleteButton";
 
 const SinglePost = (props) => {
   const { user } = useContext(AuthContext);
@@ -14,6 +14,10 @@ const SinglePost = (props) => {
   const { data } = useQuery(QUERY_GET_POST, {
     variables: { postId },
   });
+
+  const deletePostCallback = () => {
+    props.history.push("/");
+  };
 
   let postMarkup;
 
@@ -65,6 +69,9 @@ const SinglePost = (props) => {
                     {commentCount}
                   </Label>
                 </Button>
+                {user && user.username === username && (
+                  <DeleteButton postId={postId} callback={deletePostCallback} />
+                )}
               </Card.Content>
             </Card>
           </Grid.Column>
