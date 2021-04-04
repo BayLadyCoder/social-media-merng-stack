@@ -31,23 +31,6 @@ const DeleteButton = ({ postId, callback, commentId }) => {
           },
         });
       }
-
-      // else {
-      //   const data = cache.readQuery({ query: QUERY_GET_POSTS });
-      //   console.log('data', data);
-      //   cache.writeQuery({
-      //     query: QUERY_GET_POSTS,
-      //     data: {
-      //       ...data,
-      //       getPosts: data.getPosts.map((post) => {
-      //         if (post.id !== postId) {
-      //           post.comments.filter((comment) => comment.id !== commentId);
-      //         }
-      //         return post;
-      //       }),
-      //     },
-      //   });
-      // }
     },
   });
 
