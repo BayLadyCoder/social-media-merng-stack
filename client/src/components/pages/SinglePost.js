@@ -9,6 +9,7 @@ import {
   Icon,
   Label,
   Form,
+  Popup,
 } from "semantic-ui-react";
 import { AuthContext } from "../../context/auth";
 import Moment from "react-moment";
@@ -58,10 +59,16 @@ const SinglePost = (props) => {
       <Grid>
         <Grid.Row>
           <Grid.Column width={2}>
-            <Image
-              src="https://react.semantic-ui.com/images/avatar/large/molly.png"
-              size="small"
-              float="right"
+            <Popup
+              inverted
+              content={username}
+              trigger={
+                <Image
+                  src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                  size="small"
+                  float="right"
+                />
+              }
             />
           </Grid.Column>
           <Grid.Column width={10}>
@@ -78,18 +85,25 @@ const SinglePost = (props) => {
               <hr />
               <Card.Content>
                 <LikeButton user={user} post={{ id, likes, likeCount }} />
-                <Button
-                  as="div"
-                  labelPosition="right"
-                  onClick={() => console.log("Comment on post")}
-                >
-                  <Button basic color="blue">
-                    <Icon name="comments" />
-                  </Button>
-                  <Label basic color="blue" pointing="left">
-                    {commentCount}
-                  </Label>
-                </Button>
+                <Popup
+                  inverted
+                  content="Add a comment"
+                  trigger={
+                    <Button
+                      as="div"
+                      labelPosition="right"
+                      onClick={() => console.log("Comment on post")}
+                    >
+                      <Button basic color="blue">
+                        <Icon name="comments" />
+                      </Button>
+                      <Label basic color="blue" pointing="left">
+                        {commentCount}
+                      </Label>
+                    </Button>
+                  }
+                />
+
                 {user && user.username === username && (
                   <DeleteButton postId={postId} callback={deletePostCallback} />
                 )}

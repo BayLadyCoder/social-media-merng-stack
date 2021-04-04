@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Confirm } from "semantic-ui-react";
+import { Button, Confirm, Popup } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import {
   MUTATION_DELETE_POST,
@@ -36,13 +36,20 @@ const DeleteButton = ({ postId, callback, commentId }) => {
 
   return (
     <>
-      <Button
-        as="div"
-        color="red"
-        onClick={() => setConfirmOpen(true)}
-        icon="trash"
-        floated="right"
+      <Popup
+        inverted
+        content={commentId ? "Delete comment" : "Delete post"}
+        trigger={
+          <Button
+            as="div"
+            color="red"
+            onClick={() => setConfirmOpen(true)}
+            icon="trash"
+            floated="right"
+          />
+        }
       />
+
       <Confirm
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
