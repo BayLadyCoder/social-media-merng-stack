@@ -104,3 +104,21 @@ export const MUTATION_DELETE_COMMENT = gql`
     }
   }
 `;
+
+export const MUTATION_CREATE_COMMENT = gql`
+  mutation createComment($postId: ID!, $content: String!) {
+    createComment(postId: $postId, content: $content) {
+      id
+      content
+      username
+      created_at
+      comments {
+        id
+        content
+        username
+        created_at
+      }
+      commentCount
+    }
+  }
+`;
