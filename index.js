@@ -1,8 +1,12 @@
 const { ApolloServer, PubSub } = require("apollo-server");
+require("dotenv").config();
+
 const connectDB = require("./config/db");
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
+
+const PORT = process.env.PORT || 5000;
 
 connectDB();
 
@@ -16,6 +20,6 @@ const server = new ApolloServer({
   // pubsub = Public Subscription
 });
 
-server.listen({ port: 5000 }).then((res) => {
-  console.log(`Server running at port 5000`);
+server.listen({ port: PORT }).then((res) => {
+  console.log(`Server running at port ${PORT}`);
 });
